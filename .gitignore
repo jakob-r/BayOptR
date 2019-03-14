@@ -10,3 +10,4 @@ vignettes/*.html
 vignettes/*.R
 vignettes/*_files/
 *.Rproj
+*.html
