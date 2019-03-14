@@ -32,8 +32,10 @@ OptState= R6Class(
 
     # tell the iterator to do its work for this step
     step = function() {
+      self$opt_terminator$step_begin(self)
       self$step_counter = self$step_counter + 1L
       self$opt_iterator$step(self)
+      self$opt_terminator$step_end(self)
       self$hook_storage[[self$step_counter]] = self$opt_problem$hook_fun(self)
     },
 
