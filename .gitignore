@@ -5,7 +5,6 @@
 .Rhistory
 .Rproj.user
 .Ruserdata
-README.md
 vignettes/*.html
 vignettes/*.R
 vignettes/*_files/

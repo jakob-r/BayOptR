@@ -8,9 +8,13 @@ Authors@R: c(
 Description: A modern and flexible approach to Bayesian Optimization in R.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Depends:
+    paradox
 Imports:
-  checkmate,
-  R6,
-  data.table
+    checkmate,
+    R6,
+    data.table
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
+Remotes:
+    mlr-org/paradox

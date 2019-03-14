@@ -1,18 +1,12 @@
----
-title: "BayOptR"
-author: "Jakob Richter"
-output: github_document
----
+BayOptR
+================
+Jakob Richter
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Just a skeletton!
+Just a skeletton\!
 
 ![Dancing Skeletton](https://i.imgur.com/JODHF99.gif)
 
-```{r, eval = FALSE}
+``` r
 devtools::load_all()
 
 fun = function(x) x^2
@@ -28,7 +22,4 @@ op = OptProblem$new(
 )
 
 bayopt(op)
-
-
 ```
-
