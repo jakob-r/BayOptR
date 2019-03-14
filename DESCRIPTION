@@ -1,0 +1,16 @@
+Package: BayOptR
+Type: Package
+Title: Flexible Bayesian Optimization in R
+Version: 0.1.0
+Authors@R: c(
+    person("Jakob", "Richter", NULL, "code@jakob-r.de", role = c("cre", "aut")),
+    )
+Description: A modern and flexible approach to Bayesian Optimization in R.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+  checkmate,
+  R6,
+  data.table
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr

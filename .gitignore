@@ -1,0 +1,12 @@
+*.sublime-project
+*.sublime-workspace
+*_cache
+.RData
+.Rhistory
+.Rproj.user
+.Ruserdata
+README.md
+vignettes/*.html
+vignettes/*.R
+vignettes/*_files/
+*.Rproj

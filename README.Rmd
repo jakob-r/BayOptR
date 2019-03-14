@@ -1,0 +1,36 @@
+---
+title: "BayOptR"
+author: "Jakob Richter"
+date: "March 14, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# BayOptR
+
+Just a skeletton!
+
+![Dancing Skeletton](https://i.imgur.com/JODHF99.gif)
+
+```{r, eval = FALSE}
+devtools::load_all()
+
+fun = function(x) x^2
+
+op = OptProblem$new(
+  target_fun = fun,
+  opt_iterator = OptIteratorBO$new(),
+  opt_terminator = OptTerminatorSteps$new(10),
+  surrogate_model = SurrogateModelGP$new(),
+  acq_optimizer = AcqOptimizerCMAES$new(),
+  acq_function = AcqFunctionCB$new()
+)
+
+bayopt(op)
+
+
+```
+
