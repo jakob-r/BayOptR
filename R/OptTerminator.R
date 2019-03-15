@@ -14,12 +14,12 @@ OptTerminator = R6Class(
     # returns true if we can continue our optimization
     can_continue = function(opt_state) {
       stop("Not implemented!")
-    }
+    },
 
     # hook called at begin of step
     step_begin = function(opt_state) {
 
-    }
+    },
 
     # hook called at end of step
     step_end = function(opt_state) {

@@ -13,15 +13,19 @@ OptState= R6Class(
     opt_iterator = NULL,
     opt_terminator = NULL,
     surrogate_model = NULL,
+    acq_optimizer = NULL,
+    acq_function = NULL,
     hook_storage = list(),
     step_counter = 0,
 
     # constructor
-    initialize = function(opt_problem, opt_iterator, opt_terminator, surrogate_model) {
+    initialize = function(opt_problem, opt_iterator, opt_terminator, surrogate_model, acq_optimizer, acq_function) {
       self$opt_problem = opt_problem
       self$opt_iterator = opt_iterator
       self$opt_terminator = opt_terminator
       self$surrogate_model = surrogate_model
+      self$acq_optimizer = acq_optimizer
+      self$acq_function = acq_function
     },
 
     # public methods

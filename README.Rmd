@@ -8,27 +8,37 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Just a skeletton!
+Kind of working skeletton!
 
 ![Dancing Skeletton](https://i.imgur.com/JODHF99.gif)
 
-```{r, eval = FALSE}
+```{r}
+set.seed(1)
+library(R6)
+library(checkmate)
 devtools::load_all()
 
-fun = function(x) x^2
-search_space = ParamSet$new(params = list(ParamDbl$new("x", -5, 5)))
+fun = function(x) sqrt(x) * sin(x) # Alpine 02
+search_space = ParamSet$new(params = list(ParamDbl$new("x", 0, 10)))
+target_fun = TargetFun$new(fun, search_space)
+design = generate_design_lhs(search_space, 5)
+design = data.table(x = design$transpose())
+design$y = target_fun$eval(design)
 
 op = OptProblem$new(
-  target_fun = TargetFun$new(fun, search_space),
+  target_fun = target_fun,
+  design = design,
   opt_iterator = OptIteratorBO$new(),
-  opt_terminator = OptTerminatorSteps$new(10),
-  surrogate_model = SurrogateModelGP$new(),
-  acq_optimizer = AcqOptimizerCMAES$new(),
-  acq_function = AcqFunctionCB$new()
+  opt_terminator = OptTerminatorSteps$new(5),
+  surrogate_model = SurrogateModelGPfit$new(design = design),
+  acq_optimizer = AcqOptimizerGenSA$new(control = list(maxit = 100)),
+  acq_function = AcqFunctionCB$new(lambda = 2)
 )
 
-bayopt(op)
-
-
+res = bayopt(op)
+res$surrogate_model$design
+res$surrogate_model$predict(res$surrogate_model$design)
+plot(res$surrogate_model$storage$model)
+curve(fun(x*10), add = TRUE, col = "green") # GP_fit does some scaling
 ```
 

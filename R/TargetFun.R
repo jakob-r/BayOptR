@@ -11,17 +11,17 @@ TargetFun = R6Class(
     # constructor
     initialize = function(fun, search_space, minimize = TRUE) {
       self$fun = assert_function(fun)
-      self$search_space = assert_R6(search_space, "ParamSet")
+      self$search_space = assert_r6(search_space, "ParamSet")
       self$minimize = assert_flag(minimize)
-    }
+    },
 
     # points = data.table with column x
     # returns: numeric(nrow(points))
     eval = function(points) {
-      fun(points$x)
-    }
+      vapply(points$x, function(x) do.call(fun, x), numeric(1))
+    },
 
-    eval_as_minimization(points) {
+    eval_as_minimization = function(points) {
       if (minimize) {
         eval(points)
       } else {

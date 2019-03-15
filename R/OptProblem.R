@@ -9,15 +9,18 @@ OptProblem= R6Class(
     # public member
     storage = list(),
     target_fun = NULL,
+    design = NULL,
     opt_iterator = NULL,
     opt_terminator = NULL,
     surrogate_model = NULL,
     acq_optimizer = NULL,
+    acq_function = NULL,
     hook_fun = NULL,
 
     # constructor
-    initialize = function(target_fun, opt_iterator, opt_terminator, surrogate_model, acq_optimizer, acq_function, hook_fun = function(opt_state) NULL) {
+    initialize = function(target_fun, design, opt_iterator, opt_terminator, surrogate_model, acq_optimizer, acq_function, hook_fun = function(opt_state) NULL) {
       self$target_fun = target_fun
+      self$design = design
       self$opt_iterator = opt_iterator
       self$opt_terminator = opt_terminator
       self$surrogate_model = surrogate_model
