@@ -15,7 +15,7 @@ ProposalGeneratorMultiCL = R6Class(
     # public methods
     # value: data.table with column x (plus additional stuff in additional columns?)
     generate = function(opt_state) {
-      this_opt_state = opt_state$clone(deep = TRUE)
+      this_opt_state = opt_state$clone(deep = TRUE) # FIXME This is probably not very fast, because we copy a (potentially big) surrogate model which we probably wont use. But this depends on the surrogate and should be handled there I guess.
       lie_fun = get(self$parameters$lie, mode = "function")
       proposals = vector("list", self$parameters$n)
       for (i in seq_len(self$parameters$n)) {
