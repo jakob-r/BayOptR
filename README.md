@@ -6,6 +6,8 @@ Kind of working skeletton\!
 
 ![Dancing Skeletton](https://i.imgur.com/JODHF99.gif)
 
+## SMBO
+
 ``` r
 set.seed(1)
 library(R6)
@@ -33,8 +35,10 @@ op = OptProblem$new(
   opt_iterator = OptIteratorBO$new(),
   opt_terminator = OptTerminatorSteps$new(5),
   surrogate_model = SurrogateModelGPfit$new(design = design),
-  acq_optimizer = AcqOptimizerGenSA$new(control = list(maxit = 100)),
-  acq_function = AcqFunctionCB$new(lambda = 2)
+  proposal_generator = ProposalGeneratorSingle$new(
+    acq_optimizer = AcqOptimizerGenSA$new(control = list(maxit = 100)),
+    acq_function = AcqFunctionCB$new(lambda = 2)
+  )
 )
 
 res = bayopt(op)
@@ -77,3 +81,29 @@ curve(fun(x*10), add = TRUE, col = "green") # GP_fit does some scaling
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+## Multipoint MBO
+
+``` r
+devtools::load_all()
+```
+
+    ## Loading BayOptR
+
+``` r
+op = OptProblem$new(
+  target_fun = target_fun,
+  design = design,
+  opt_iterator = OptIteratorBO$new(),
+  opt_terminator = OptTerminatorSteps$new(5),
+  surrogate_model = SurrogateModelGPfit$new(design = design),
+  proposal_generator = ProposalGeneratorMultiCL$new(
+    acq_optimizer = AcqOptimizerGenSA$new(control = list(maxit = 100)),
+    acq_function = AcqFunctionCB$new(lambda = 2),
+    n = 2,
+    lie = "min"
+  )
+)
+
+res = bayopt(op)
+```

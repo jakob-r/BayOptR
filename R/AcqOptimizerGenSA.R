@@ -8,7 +8,11 @@ AcqOptimizerGenSA = R6Class(
 
     # constructor
     initialize = function(control = list(trace.mat = FALSE)) {
-      super$initialize("GenSA", parameters = list(control = control), capabilities = "continous", packages = "GenSA")
+      super$initialize(
+        "GenSA", 
+        parameters = list(control = control), 
+        capabilities = "continous", 
+        packages = "GenSA")
       self$storage$par = NULL
     },
 
@@ -18,7 +22,7 @@ AcqOptimizerGenSA = R6Class(
       search_space = acq_function$search_space
 
       fun = function(x) {
-        names(x) = search_space$id
+        names(x) = search_space$ids()
         x = list(x = x)
         acq_function$evaluate_as_minimization(data.table(x = list(x)))$acq
       }
@@ -33,7 +37,7 @@ AcqOptimizerGenSA = R6Class(
 
       # store optimal resolution as start for next run
       self$storage$par = res$par
-      list(res$par)
+      data.table(x = list(as.list(res$par)))
     }
   )
 )

@@ -14,10 +14,9 @@ OptIteratorBO = R6Class(
 
     # returns OptState
     step = function(opt_state) {
-      opt_state$acq_function$prepare(opt_state)
-      new_point = opt_state$acq_optimizer$optim(opt_state$acq_function)
-      y = opt_state$opt_problem$target_fun$eval(data.table(x = list(new_point)))
-      opt_state$surrogate_model$add(data.table(x = list(new_point), y = y))
+      new_point = opt_state$proposal_generator$generate(opt_state)
+      y = opt_state$opt_problem$target_fun$eval(new_point)
+      opt_state$surrogate_model$add(cbind(new_point, y = y))
     }
 
 

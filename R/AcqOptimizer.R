@@ -20,15 +20,10 @@ AcqOptimizer = R6Class(
 
     # public methods
 
-    # prepare
-    prepare = function(opt_state) {
-
-    },
-
     # optimizes the acq_function
-    # returns one point as list eg list(x1 = 0, x2 = 1), or list(x = 1)
+    # returns a data.table with a list column x
     optim = function(acq_function) {
-
+      stop("Not implemented.")
     }
   )
 )
