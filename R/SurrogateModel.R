@@ -40,12 +40,12 @@ SurrogateModel = R6Class(
 
     # remove points from the surrogate (optional)
     remove = function(points) {
-
+      stop("Not implemented.")
     },
 
     # replace old_points by new_points (optional)
     update = function(old_points, new_points) {
-
+      stop("Not implemented.")
     },
 
     # obtain mean response (and optional se)
