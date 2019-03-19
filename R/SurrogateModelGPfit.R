@@ -24,9 +24,12 @@ SurrogateModelGPfit = R6Class(
 
     predict = function(points) {
       # GP_fit only accepts input values [0,1], therefore we have to scale
+      range = search_space$upper - search_space$lower #precalc for fastness, maybe even further 'up'?
+      lower = search_space$lower
+      npar = length(range)
       mat_scale = function(x) {
-        mat = as.matrix(rbindlist(x))
-        mat = t((t(mat) - search_space$lower) / (search_space$upper - search_space$lower))
+        mat = as.matrix(rbindlist(x)) # Suprisingly slow according to profiling
+        mat = sweep(mat, 2, lower) %*% diag(1/(range), npar, npar)
       }
       if (is.null(self$storage$model)) {
         model = GPfit::GP_fit(X = mat_scale(self$design$x), Y = self$design$y)
