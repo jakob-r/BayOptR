@@ -4,8 +4,14 @@ ProposalGeneratorSingle = R6Class(
   
   public = list(
     # public member
+    acq_function = NULL,
+    acq_optimizer = NULL,
     
     # constructor
+    initialize = function(acq_function, acq_optimizer) {
+      self$acq_function = acq_function
+      self$acq_optimizer = acq_optimizer
+    },
     
     # public methods
     # value: data.table with column x (plus additional stuff in additional columns?)

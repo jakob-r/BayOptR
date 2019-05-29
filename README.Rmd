@@ -4,7 +4,7 @@ author: "Jakob Richter"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup_silent, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -12,20 +12,29 @@ Kind of working skeletton!
 
 ![Dancing Skeletton](https://i.imgur.com/JODHF99.gif)
 
-## SMBO 
-```{r}
+```{r setup}
 set.seed(1)
 library(R6)
 library(checkmate)
 devtools::load_all()
+```
 
+## SMBO 
+
+Basic Problem Definition:
+
+```{r problem}
 fun = function(x) sqrt(x) * sin(x) # Alpine 02
 search_space = ParamSet$new(params = list(ParamDbl$new("x", 0, 10)))
 target_fun = TargetFun$new(fun, search_space)
 design = generate_design_lhs(search_space, 5)
 design = data.table(x = design$transpose())
 design$y = target_fun$eval(design)
+```
 
+MBO Problem:
+
+```{r smbo}
 op = OptProblem$new(
   target_fun = target_fun,
   design = design,
@@ -46,8 +55,10 @@ curve(fun(x*10), add = TRUE, col = "green") # GP_fit does some scaling
 ```
 
 ## Multipoint MBO 
-```{r}
-devtools::load_all()
+
+### Constant Liar
+
+```{r multi_cl}
 op = OptProblem$new(
   target_fun = target_fun,
   design = design,
@@ -65,5 +76,32 @@ op = OptProblem$new(
 res = bayopt(op)
 ```
 
+### Ensemble
+
+Combining multiple `ProposalGeneratorSingle` to a Multipoint Proposal.
+
+```{r multi_ensemble}
+acq_optimizer = AcqOptimizerGenSA$new(control = list(maxit = 100))
+
+proposal_generators = lapply(c(1, 2, 4), function(x) {
+  ProposalGeneratorSingle$new(
+    acq_optimizer = acq_optimizer,
+    acq_function = AcqFunctionCB$new(lambda = x)
+  )
+})
+
+op = OptProblem$new(
+  target_fun = target_fun,
+  design = design,
+  opt_iterator = OptIteratorBO$new(),
+  opt_terminator = OptTerminatorSteps$new(5),
+  surrogate_model = SurrogateModelGPfit$new(design = design),
+  proposal_generator = ProposalGeneratorMultiEnsemble$new(
+      proposal_generator_singles = proposal_generators
+    )
+)
+
+res = bayopt(op)
+```
 
 
